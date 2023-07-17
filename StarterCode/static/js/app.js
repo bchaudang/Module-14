@@ -58,7 +58,20 @@
         var samples = data.samples;
         var resultArray = samples.filter(obj => obj.id == sample);
         var result = resultArray[0];
-        
+
+        // sample_values, otu_ids, otu_labels for bar chart
+        var sampleValue = result.sample_values;
+        var otuID = result.otu_ids;
+        var otuLabel = result.otu_labels;
+
+        // filter metadata to show results
+        var metadata = data.metadata;
+        var metadataArray = metadata.filter(sampleObj => sampleObj.id == sample);
+        var metaResult = metadataArray[0];
+
+        // washing frequency of belly button
+        var washFrequency = parseInt(metaResult.wfreq)
+
 
       })
 
