@@ -1,5 +1,5 @@
 function init() {    
-  // dropdown menu reference selector
+  // drop down menu
   var selector = d3.select("#selDataset");
   
   // fetch JSON samples file data
@@ -13,7 +13,7 @@ function init() {
           .property("value", sample);
       });
   
-      // use the first test ID sample from the list to build the initial plots
+      // test ID sample from the list to build the initial plots
       var firstSampleId = sampleName[0];
       buildCharts(firstSampleId);
       buildMetadata(firstSampleId);
@@ -30,7 +30,7 @@ function init() {
     
   }
   
-  // demographics info divbox panel, use variables
+  // demographics info divbox panel 
   function buildMetadata(sample) {
     d3.json("samples.json").then((data) => {
       var metadata = data.metadata;      
@@ -50,7 +50,7 @@ function init() {
   }
 
 
-    // use buildCharts function, use console to log data, use variables
+    // use buildCharts function
     function buildCharts(sample) {
       d3.json("samples.json").then((data) => {
         console.log(data);
@@ -63,7 +63,7 @@ function init() {
         var otuID = result.otu_ids;
         var otuLabel = result.otu_labels;
 
-        // filter metadata to show results in array
+        // filter metadata
         var metadata = data.metadata;
         var metadataArray = metadata.filter(sampleObj => sampleObj.id == sample);
         var metaResult = metadataArray[0];
@@ -71,7 +71,7 @@ function init() {
         // washing frequency of belly button
         var washFrequency = parseInt(metaResult.wfreq);
 
-        // x and y labels(ticks) for charts
+        // x and y labels(ticks) 
         var xticks = sampleValue.slice(0,10).reverse();
         var yticks = otuID.slice(0,10).reverse().map(function (elem) {return `OTU ${elem}`});
         var labels = otuLabel.slice(0,10).reverse();
@@ -152,6 +152,7 @@ function init() {
         var bubbleChartLayout = {
           xaxis: {title: "OTU ID"},
           showlegend: false,
+          font: { color: "#660066"},
           paper_bgcolor: "#f2f2f2"
         };
         
@@ -160,3 +161,4 @@ function init() {
     
       });
      };
+
