@@ -70,7 +70,31 @@
         var metaResult = metadataArray[0];
 
         // washing frequency of belly button
-        var washFrequency = parseInt(metaResult.wfreq)
+        var washFrequency = parseInt(metaResult.wfreq);
+
+        // x and y labels(ticks) for bar charts
+        var xticks = sampleValue.slice(0,10).reverse();
+        var yticks = otuID.slice(0,10).reverse().map(function (elem) {return `OTU ${elem}`});
+        var labels = otuLabel.slice(0,10).reverse();
+
+        //bar chart
+        var barChartData = {
+          x: xticks,
+          y: yticks,
+          type: 'bar',
+          orientation: 'horizontal',
+          text: labels,
+          color: 'rgb(50, 171, 96)'
+        };
+
+        // bar chart layout
+        var barChartLayout = {
+          title: "Top 10 OTU's Found",
+        };
+
+        // plot chart with plotly
+        Plotly.newChart("bar", [barChartData], barChartLayout);
+  
 
 
       })
