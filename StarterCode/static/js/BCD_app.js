@@ -71,7 +71,7 @@ function init() {
         // washing frequency of belly button
         var washFrequency = parseInt(metaResult.wfreq);
 
-        // x and y labels(ticks) 
+        // x and y  
         var xticks = sampleValue.slice(0,10).reverse();
         var yticks = otuID.slice(0,10).reverse().map(function (elem) {return `OTU ${elem}`});
         var labels = otuLabel.slice(0,10).reverse();
