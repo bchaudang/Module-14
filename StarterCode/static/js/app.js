@@ -1,13 +1,12 @@
-  function init() {
-    // dropdown menu reference selector
-    var selector = d3.select("#selDataset");
+function init() {    
+  // dropdown menu reference selector
+  var selector = d3.select("#selDataset");
   
-    // fetch the JSON data, use variables
-    d3.json("samples.json").then((data) => {
+  // fetch JSON samples file data
+  d3.json("samples.json").then((data) => {  
+    var sampleName = data.names;
   
-      var sampleNameId = data.names;
-  
-      sampleNameId.forEach((sample) => {
+      sampleName.forEach((sample) => {
         selector
           .append("option")
           .text(sample)
@@ -15,7 +14,7 @@
       });
   
       // use the first test ID sample from the list to build the initial plots
-      var firstSampleId = sampleNames[0];
+      var firstSampleId = sampleName[0];
       buildCharts(firstSampleId);
       buildMetadata(firstSampleId);
     });
@@ -43,7 +42,7 @@
       PANEL.html("");
   
       // add each key and value pair to the panel using `Object.entries` 
-            Object.entries(result).forEach(([key, value]) => {
+      Object.entries(result).forEach(([key, value]) => {
         PANEL.append("h6").text(`${key.toUpperCase()}: ${value}`);
       });
   
@@ -59,7 +58,7 @@
         var resultArray = samples.filter(obj => obj.id == sample);
         var result = resultArray[0];
 
-        // sample_values, otu_ids, otu_labels for bar chart
+        // sample_values, otu_ids, otu_labels for charts
         var sampleValue = result.sample_values;
         var otuID = result.otu_ids;
         var otuLabel = result.otu_labels;
@@ -82,24 +81,69 @@
           x: xticks,
           y: yticks,
           type: 'bar',
-          orientation: 'horizontal',
-          text: labels,
-          color: 'rgb(50, 171, 96)'
+          orientation: 'h',
+          text: labels
+
         };
 
         // bar chart layout
         var barChartLayout = {
-          title: "Top 10 OTU's Found",
+          color: "#32ab60",
         };
 
         // plot chart with plotly
-        Plotly.newChart("bar", [barChartData], barChartLayout);
-  
+        Plotly.newPlot("bar", [barChartData], barChartLayout);
 
 
-      })
+        // Gauge chart
+        var gaugeChartData = {
+          value: washFrequency,
+          title: {text: "Belly Button Washing Frequency<br>Scrubs per Week"},
+          type: "indicator",
+          mode: "gauge+number",
+          gauge: {
+            axis: {range: [0,10]},
+            steps: [
+              {range: [0,2], color:"#ff6666"},
+              {range: [2,4], color:"#ff8c66"},
+              {range: [4,6], color:"#ffb366"},
+              {range: [6,8], color:"#ffd966"},
+              {range: [8,10], color:"#ffff66"}
+            ]
+          }
+        };
+    
+        var gaugeChartLayout = {
+          width: 600, 
+          height: 450, 
+          margin: {t: 0, b: 0},
+          paper_bgcolor: '#ffe6ff',
+          font: { color: "#b84dff"}
 
-
-
-
-    }
+        };
+    
+        Plotly.newPlot("gauge", [gaugeChartData], gaugeChartLayout);
+    
+        // bubble chart
+        var bubbleChartData = {
+          x: otuID,
+          y: sampleValue,
+          text: otuLabel,
+          mode: 'markers',
+          marker: {
+            size: sampleValue,
+            color: otuID
+          }
+        };
+        
+        // bubble chart layout
+        var bubbleChartLayout = {
+          xaxis: {title: "OTU ID"},
+          showlegend: false
+        };
+        
+        // Use Plotly to plot the data with the layout.
+        Plotly.newPlot("bubble", [bubbleChartData], bubbleChartLayout);   
+    
+      });
+     };
