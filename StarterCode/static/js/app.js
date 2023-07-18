@@ -58,12 +58,12 @@ function init() {
         var resultArray = samples.filter(obj => obj.id == sample);
         var result = resultArray[0];
 
-        // sample_values, otu_ids, otu_labels for charts
+        // data for sample_values, otu_ids, otu_labels for charts
         var sampleValue = result.sample_values;
         var otuID = result.otu_ids;
         var otuLabel = result.otu_labels;
 
-        // filter metadata to show results
+        // filter metadata to show results in array
         var metadata = data.metadata;
         var metadataArray = metadata.filter(sampleObj => sampleObj.id == sample);
         var metaResult = metadataArray[0];
@@ -71,31 +71,35 @@ function init() {
         // washing frequency of belly button
         var washFrequency = parseInt(metaResult.wfreq);
 
-        // x and y labels(ticks) for bar charts
+        // x and y labels(ticks) for charts
         var xticks = sampleValue.slice(0,10).reverse();
         var yticks = otuID.slice(0,10).reverse().map(function (elem) {return `OTU ${elem}`});
         var labels = otuLabel.slice(0,10).reverse();
 
-        //bar chart
+        // bar chart data
         var barChartData = {
           x: xticks,
           y: yticks,
           type: 'bar',
           orientation: 'h',
-          text: labels
+          text: labels,
+          marker: {color: "#660066"}
 
         };
 
         // bar chart layout
         var barChartLayout = {
-          color: "#32ab60",
+          title: "Top 10 OTU's per Sample",
+          font: {color: "#660066"},
+          paper_bgcolor: "#f2f2f2"
+        
         };
 
         // plot chart with plotly
         Plotly.newPlot("bar", [barChartData], barChartLayout);
 
 
-        // Gauge chart
+        // Gauge chart data
         var gaugeChartData = {
           value: washFrequency,
           title: {text: "Belly Button Washing Frequency<br>Scrubs per Week"},
@@ -103,28 +107,36 @@ function init() {
           mode: "gauge+number",
           gauge: {
             axis: {range: [0,10]},
+            bar: {color: "#660066"},
+            bordercolor: "#660066",
             steps: [
-              {range: [0,2], color:"#ff6666"},
-              {range: [2,4], color:"#ff8c66"},
-              {range: [4,6], color:"#ffb366"},
-              {range: [6,8], color:"#ffd966"},
-              {range: [8,10], color:"#ffff66"}
+              {range: [0,1], color:"#ff9999"},
+              {range: [1,2], color:"#ffb399"},
+              {range: [2,3], color:"#ffcc99"},
+              {range: [3,4], color:"#ffe699"},
+              {range: [4,5], color:"#ffff99"},
+              {range: [5,6], color:"#e6ff99"},
+              {range: [6,7], color:"#ccff99"},
+              {range: [7,8], color:"#b3ff99"},
+              {range: [8,9], color:"#99ff90"},
+              {range: [9,10], color:"#99ffb3"}
             ]
           }
         };
-    
+        
+        // gauge chart layout
         var gaugeChartLayout = {
           width: 600, 
           height: 450, 
           margin: {t: 0, b: 0},
-          paper_bgcolor: '#ffe6ff',
-          font: { color: "#b84dff"}
-
+          font: { color: "#660066"},
+          paper_bgcolor: "#f2f2f2"
         };
-    
+        
+        // plot with plotly
         Plotly.newPlot("gauge", [gaugeChartData], gaugeChartLayout);
     
-        // bubble chart
+        // bubble chart data
         var bubbleChartData = {
           x: otuID,
           y: sampleValue,
@@ -139,10 +151,11 @@ function init() {
         // bubble chart layout
         var bubbleChartLayout = {
           xaxis: {title: "OTU ID"},
-          showlegend: false
+          showlegend: false,
+          paper_bgcolor: "#f2f2f2"
         };
         
-        // Use Plotly to plot the data with the layout.
+        // plot with plotly
         Plotly.newPlot("bubble", [bubbleChartData], bubbleChartLayout);   
     
       });
