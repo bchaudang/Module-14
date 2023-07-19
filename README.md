@@ -47,3 +47,6 @@ I also chose to create the dropdown menu panel first, and created all the charts
 - [Plotly - Bubble Charts](https://plotly.com/javascript/bubble-charts/)
 - [Plotly - Gauge Charts](https://plotly.com/javascript/gauge-charts/)
 - [Plotly - Bar Charts](https://plotly.com/javascript/bar-charts/#bar-chart-with-hover-text)
+- https://javascript.info/keys-values-entries
+- https://www.geeksforgeeks.org/javascript-object-entries-method/
+  
